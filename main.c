@@ -45,7 +45,10 @@ void print_all_SD( uint32_t size )
 	{
 		//printf("k = %i\n",k);
 		SD_ReadBlock(Buff, ++k, 512);
+		
+		#ifdef SD_DMA_MODE
 		while(SD_GetStatus() != SD_TRANSFER_OK);
+		#endif
 		
 		for(i=0;i<16;++i)
 		{
@@ -266,7 +269,10 @@ int main(void)
 	
 	UART_Configuration();
 	
+	#ifdef SD_DMA_MODE
 	SD_NVIC_Configuration();
+	#endif
+	
 	SD_test();
 	
 	while(1) /* Infinite loop */
